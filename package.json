@@ -1,5 +1,6 @@
 {
   "name": "use-shortcuts",
+  "description": "A zero-dependencies hotkeys/shortcuts React hook",
   "version": "0.1.0",
   "main": "dist/index.js",
   "module": "dist/use-shortcuts.esm.js",
