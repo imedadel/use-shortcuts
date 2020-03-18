@@ -17,7 +17,6 @@ const useShortcuts = (
   useEffect(() => {
     let keySequence: string[] = [];
     let sequenceTimer: number | undefined;
-    console.log({ keySequence, sequenceTimer });
 
     const clearSequenceTimer = () =>
       sequenceTimer && clearTimeout(sequenceTimer);
