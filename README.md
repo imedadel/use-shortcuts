@@ -66,7 +66,7 @@ yarn add shim-keyboard-event-key
 
 Then import it before useShortcuts :)
 
-````jsx
+```jsx
 import React from 'react';
 import 'shim-keyboard-event-key';
 import useShortcuts from 'useShortcuts';
