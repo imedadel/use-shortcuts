@@ -4,6 +4,9 @@
 
 > Follow me on [Twitter](https://twitter.com/imedadel_) :)
 
+![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/use-shortcuts.svg)
+![npm](https://img.shields.io/npm/v/use-shortcuts.svg)
+
 useShortcuts allows you to easily add and attach your hotkeys to the window. It is based on [react-use-hotkeys](https://github.com/reecelucas/react-use-hotkeys) but with a different goal/logic.
 
 ```jsx
