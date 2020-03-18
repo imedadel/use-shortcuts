@@ -17,7 +17,7 @@ useShortcuts({
 
 ## Install
 
-```
+```Bash
 yarn add use-shortcuts
 
 # or using npm
@@ -29,6 +29,7 @@ npm i use-shortcuts
 By default, useShortcuts uses `useEffect()` internally
 
 ```jsx
+import React from 'react';
 import useShortcuts from 'useShortcuts';
 
 const Example = () => {
@@ -43,10 +44,35 @@ const Example = () => {
 Alternatively, you can import `useLayoutShortcuts`, which uses `useLayoutEffect()`
 
 ```jsx
+import React from 'react';
 import { useLayoutShortcuts } from 'useShortcuts';
 
 const Example = () => {
   useLayoutShortcuts({
+    'd g': () => console.log('You pressed d then g'),
+  });
+
+  return <div>...</div>;
+};
+```
+
+### IE Support
+
+If you need to support IE (in my case, I didn't) you have to install `shim-keyboard-event-key`
+
+```Bash
+yarn add shim-keyboard-event-key
+```
+
+Then import it before useShortcuts :)
+
+````jsx
+import React from 'react';
+import 'shim-keyboard-event-key';
+import useShortcuts from 'useShortcuts';
+
+const Example = () => {
+  useShortcuts({
     'd g': () => console.log('You pressed d then g'),
   });
 
@@ -69,7 +95,7 @@ type Options = {
 }
 
 useShortcuts(shortcuts: Shortcuts, options: Options);
-```
+````
 
 ## Difference with `react-use-hotkeys`
 
