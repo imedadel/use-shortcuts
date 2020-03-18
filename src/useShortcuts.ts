@@ -6,6 +6,7 @@ import {
   mapModifierKeys,
   getActiveModifierKeys,
   modifierKeyPressed,
+  find,
 } from './utils';
 
 const useShortcuts = (
@@ -36,7 +37,7 @@ const useShortcuts = (
       keySequence.push(event.key.toLowerCase());
 
       const joinedKeySeq = keySequence.join(' ');
-      const callbackIndex = keys.find(k => k === joinedKeySeq);
+      const callbackIndex = find(keys, joinedKeySeq);
       if (callbackIndex) {
         if (keySequence.length > 1) {
           resetKeySequence();
@@ -53,7 +54,7 @@ const useShortcuts = (
     const handleModifierCombo = (event: KeyboardEvent, keys: string[]) => {
       const activeModKeys = mapModifierKeys(getActiveModifierKeys(event));
       const joinedKeys = [...activeModKeys, event.key.toLowerCase()].join('+');
-      const callbackIndex = keys.find(k => k === joinedKeys);
+      const callbackIndex = find(keys, joinedKeys);
 
       if (callbackIndex) {
         shortcuts[callbackIndex](event);

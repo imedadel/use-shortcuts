@@ -15,7 +15,8 @@ export const modiferKeyMap: { [key: string]: string } = {
   metaKey: 'Meta',
 };
 
-export const mapModifierKeys = (keys: string[]) => keys.map(k => modiferKeyMap[k]);
+export const mapModifierKeys = (keys: string[]) =>
+  keys.map(k => modiferKeyMap[k]);
 
 export const modifierKeyPressed = (event: KeyboardEvent) =>
   event.altKey || event.ctrlKey || event.shiftKey || event.metaKey;
@@ -27,4 +28,17 @@ export type Options = {
 
 export type Shortcuts = {
   [shortcut: string]: (event: KeyboardEvent) => void;
+};
+
+export const find = (keys: string[], el: string) => {
+  let r: string | null = null;
+
+  for (let index = 0; index < keys.length; index++) {
+    if (keys[index] === el) {
+      r = keys[index];
+      break;
+    }
+  }
+
+  return r;
 };
