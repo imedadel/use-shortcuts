@@ -52,73 +52,70 @@ export const handleKeyDown = ({
   shortcutsKeys: string[];
   options: Options;
 }) => {
-  {
-    let keySequence: string[] = [];
-    let sequenceTimer: number | undefined;
+  let keySequence: string[] = [];
+  let sequenceTimer: number | undefined;
 
-    const clearSequenceTimer = () =>
-      sequenceTimer && clearTimeout(sequenceTimer);
+  const clearSequenceTimer = () => sequenceTimer && clearTimeout(sequenceTimer);
 
-    const resetKeySequence = () => {
-      clearSequenceTimer();
-      keySequence = [];
-    };
+  const resetKeySequence = () => {
+    clearSequenceTimer();
+    keySequence = [];
+  };
 
-    const handleKeySequence = (event: KeyboardEvent, keys: string[]) => {
-      clearSequenceTimer();
+  const handleKeySequence = (event: KeyboardEvent, keys: string[]) => {
+    clearSequenceTimer();
 
-      sequenceTimer = window.setTimeout(() => {
+    sequenceTimer = window.setTimeout(() => {
+      resetKeySequence();
+    }, options.KEY_SEQUENCE_TIMEOUT);
+
+    keySequence.push(event.key.toLowerCase());
+
+    const joinedKeySeq = keySequence.join(' ');
+    const callbackIndex = find(keys, joinedKeySeq);
+    if (callbackIndex) {
+      if (keySequence.length > 1) {
         resetKeySequence();
-      }, options.KEY_SEQUENCE_TIMEOUT);
-
-      keySequence.push(event.key.toLowerCase());
-
-      const joinedKeySeq = keySequence.join(' ');
-      const callbackIndex = find(keys, joinedKeySeq);
-      if (callbackIndex) {
-        if (keySequence.length > 1) {
+        shortcuts[callbackIndex](event);
+      } else {
+        sequenceTimer = window.setTimeout(() => {
           resetKeySequence();
           shortcuts[callbackIndex](event);
-        } else {
-          sequenceTimer = window.setTimeout(() => {
-            resetKeySequence();
-            shortcuts[callbackIndex](event);
-          }, options.SINGLE_KEY_TIMEOUT);
-        }
+        }, options.SINGLE_KEY_TIMEOUT);
       }
-    };
+    }
+  };
 
-    const handleModifierCombo = (event: KeyboardEvent, keys: string[]) => {
-      const activeModKeys = mapModifierKeys(getActiveModifierKeys(event));
-      const joinedKeys = [...activeModKeys, event.key.toLowerCase()].join('+');
-      const callbackIndex = find(keys, joinedKeys);
+  const handleModifierCombo = (event: KeyboardEvent, keys: string[]) => {
+    const activeModKeys = mapModifierKeys(getActiveModifierKeys(event));
+    const joinedKeys = [...activeModKeys, event.key.toLowerCase()].join('+');
+    const callbackIndex = find(keys, joinedKeys);
 
-      if (callbackIndex) {
-        shortcuts[callbackIndex](event);
-      }
-    };
+    if (callbackIndex) {
+      shortcuts[callbackIndex](event);
+    }
+  };
 
-    const onKeydown = (event: KeyboardEvent) => {
-      // chrome autocomplete triggers 'keydown' event but event.key will be
-      // undefined. See https://bugs.chromium.org/p/chromium/issues/detail?id=581537
-      if (event.key === undefined) {
-        return;
-      }
+  const onKeydown = (event: KeyboardEvent) => {
+    // chrome autocomplete triggers 'keydown' event but event.key will be
+    // undefined. See https://bugs.chromium.org/p/chromium/issues/detail?id=581537
+    if (event.key === undefined) {
+      return;
+    }
 
-      // Handle modifier key combos
-      if (modifierKeyPressed(event)) {
-        handleModifierCombo(event, shortcutsKeys);
-        return;
-      }
+    // Handle modifier key combos
+    if (modifierKeyPressed(event)) {
+      handleModifierCombo(event, shortcutsKeys);
+      return;
+    }
 
-      // Handle key sequences
-      handleKeySequence(event, shortcutsKeys);
-    };
+    // Handle key sequences
+    handleKeySequence(event, shortcutsKeys);
+  };
 
-    window.addEventListener('keydown', onKeydown);
+  window.addEventListener('keydown', onKeydown);
 
-    return () => {
-      window.removeEventListener('keydown', onKeydown);
-    };
-  }
+  return () => {
+    window.removeEventListener('keydown', onKeydown);
+  };
 };
