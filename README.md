@@ -1,3 +1,7 @@
+# ⚠ Use [react-use-hotkeys](https://github.com/reecelucas/react-use-hotkeys) instead. I don't see any reason for maintaining this version.
+
+----
+
 # useShortcuts
 
 > A zero-dependencies hotkeys/shortcuts React hook
